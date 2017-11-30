@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>BAMSI</title>
+    <link rel="stylesheet" href="{{ static_url('css/style.css') }}" >
+</head>
+<body>
+<div id="container">
+    <div id="sideMenu">
+
+        <ul class="menu" id="large-menu">
+            <li><a href="/">BAMSI</a></li>
+            <li>Launcher</li>
+            <li><a href="/dash">Dashboard</a></li>
+            <li></li>
+        </ul>
+
+
+        <ul class="menu">
+            <li>Active Workers</li>
+            {% if nodes %}
+            {% for node in nodes %}
+            <li>{{ node }}  </li>
+            {% end %}
+            {%  end %}
+
+        </ul>
+
+    </div>
+    <!-- End Side Medu Section-->
+
+    <div id="content">
+
+        <!-- Header Section-->
+        <div id="titleBar">
+            <h2>Launcher</h2>
+        </div>
+
+        <!-- rest of the content -->
+
+        <form class="ncontrols" id="main-form" method="get" >
+            <!-- action="/spawn" -->
+
+            <div class="filter-category" id="Files">
+
+                <div class="section-title">
+                     Select Files
+                </div>
+                <fieldset id="subpop-field">
+                    <div class="category-title">
+                     Subpopulation
+                    </div>
+
+                    <div class="subpop-category">
+                    <div class="checkbox">
+                        <input type="checkbox" name="select-all" value=" " id="all-EAS"/>
+                        <label>East Asian (EAS) </label>
+                    </div>
+                        <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="CHB" id="CHB"/>
+                        <label>CHB</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="JPT" id="JPT"/>
+                        <label>JPT</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="CHS" id="CHS"/>
+                        <label>CHS</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="CDX" id="CDX"/>
+                        <label>CDX</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="KHV" id="KHV"/>
+                        <label>KHV</label>
+                    </div>
+                    </div>
+                    <div class="subpop-category">
+                    <div class="checkbox">
+                        <input type="checkbox" class="select-all" name="select-all" value=" " id="all-EUR"/>
+                        <label>European (EUR) </label>
+                    </div>
+
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="CEU" id="CEU"/>
+                        <label>CEU</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="TSI" id="TSI"/>
+                        <label>TSI</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="FIN" id="FIN"/>
+                        <label>FIN</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="GBR" id="GBR"/>
+                        <label>GBR</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="IBS" id="IBS"/>
+                        <label>IBS</label>
+                    </div>
+                    </div>
+                    <div class="subpop-category">
+                     <div class="checkbox">
+                        <input type="checkbox" class="select-all" name="select-all" value=" " id="all-AFR"/>
+                        <label>African (AFR) </label>
+                    </div>
+
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="YRI" id="YRI"/>
+                        <label>YRI</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="LWK" id="LWK"/>
+                        <label>LWK</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="GWD" id="GWD"/>
+                        <label>GWD</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="MSL" id="MSL"/>
+                        <label>MSL</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="ESN" id="ESN"/>
+                        <label>ESN</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="ASW" id="ASW"/>
+                        <label>ASW</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="ACB" id="ACB"/>
+                        <label>ACB</label>
+                    </div>
+
+
+                    </div>
+                    <div class="subpop-category">
+                        <div class="checkbox">
+                        <input type="checkbox" class="select-all" name="select-all" value=" " id="all-AMR"/>
+                        <label>Admixed American (AMR) </label>
+                    </div>
+
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="MXL" id="MXL"/>
+                        <label>MXL</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="PUR" id="PUR"/>
+                        <label>PUR</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="CLM" id="CLM"/>
+                        <label>CLM</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="PEL" id="PEL"/>
+                        <label>PEL</label>
+                    </div>
+                    </div>
+                    <div class="subpop-category">
+                        <div class="checkbox">
+                        <input type="checkbox" class="select-all" name="select-all" value=" " id="all-SAS"/>
+                        <label>South Asian (SAS) </label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="GIH" id="GIH"/>
+                        <label>GIH</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="PJL" id="PJL"/>
+                        <label>PJL</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="BEB" id="BEB"/>
+                        <label>BEB</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="STU" id="STU"/>
+                        <label>STU</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="subpops" value="ITU" id="ITU"/>
+                        <label>ITU</label>
+                    </div>
+             </div>
+                </fieldset>
+
+                <fieldset id = "ind-field">
+                    <div class="category-title">
+                     Individuals
+                    </div>
+
+                    <div class="inds">
+                        <input type="text"  name="inds" id="inds" placeholder="e.g. NA12345,NA56789 ..."/>
+                    </div>
+                </fieldset>
+
+
+            </div>
+
+
+
+
+            <div class="filter-category" id="regions">
+                <div class="section-title">
+                     Select Filters
+                </div>
+
+                <fieldset>
+                    <div class="category-title">
+                     Region : start - end
+                    </div>
+                    <div class="checkbox" id="select-all-regions">
+                        <input type="checkbox" name="select-all-regions" id="select-all" value=" " class="select-all"/>
+                         <label> </label>
+                    </div>
+
+                    <div class="region-category">
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="1" checked="checked" class="region-checkbox"/>
+                        <label>1 :</label>
+                         <input type="text"  name="start"/>  -
+                        <input type="text"  name="end"  />
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="2" class="region-checkbox"/>
+                        <label>2 :</label>
+                         <input type="text"  name="start"   disabled="true" />  -
+                        <input type="text"  name="end"    disabled="true"  />
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="3" class="region-checkbox"/>
+                        <label>3 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="4"  class="region-checkbox"/>
+                        <label>4 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="5" class="region-checkbox"/>
+                        <label>5 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="6" class="region-checkbox"/>
+                        <label>6 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="7"  class="region-checkbox"/>
+                        <label>7 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="8" class="region-checkbox"/>
+                        <label>8 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    </div>
+                    <div class="region-category">
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="9" class="region-checkbox"/>
+                        <label>9 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="10" class="region-checkbox"/>
+                        <label>10 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="11" class="region-checkbox"/>
+                        <label>11 :</label>
+                         <input type="text"  name="start" disabled="true"/>  -
+                        <input type="text"  name="end" disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="12"  class="region-checkbox"/>
+                        <label>12 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="13" class="region-checkbox"/>
+                        <label>13 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="14"  class="region-checkbox"/>
+                        <label>14 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="15" class="region-checkbox"/>
+                        <label>15 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="16"  class="region-checkbox"/>
+                        <label>16 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    </div>
+                    <div class="region-category">
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="17"  class="region-checkbox"/>
+                        <label>17 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="18"  class="region-checkbox"/>
+                        <label>18 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="19" class="region-checkbox"/>
+                        <label>19 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="20"  class="region-checkbox"/>
+                        <label>20 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="21"  class="region-checkbox"/>
+                        <label>21 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="22"  class="region-checkbox"/>
+                        <label>22 :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="X" class="region-checkbox"/>
+                        <label>X :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="Y" class="region-checkbox"/>
+                        <label>Y :</label>
+                         <input type="text"  name="start"   disabled="true"/>  -
+                        <input type="text"  name="end"     disabled="true"/>
+                    </div>
+                    </div>
+                    <div class="region-category" id="last-regs">
+               <b>       Other sequences*: </b>
+                                          <br>
+           <br>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="MT" class="region-checkbox" />
+                        <label>MT :</label>
+                        <input type="text"  name="start" disabled="true" /> -
+                        <input type="text"  name="end" disabled="true" />
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="NC_007605" class="region-checkbox"/>
+                        <label>NC_007605 :</label>
+                        <input type="text"  name="start"  disabled="true"/> -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="hs37d5" class="region-checkbox"/>
+                        <label>hs37d5 :</label>
+                        <input type="text"  name="start"  disabled="true"/> -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" name="regions" value="GLs" class="region-checkbox"/>
+                        <label>GL- :</label>
+                        <input type="text"  name="start" disabled="true" /> -
+                        <input type="text"  name="end"   disabled="true"/>
+                    </div>
+
+                </div>
+                </fieldset>
+
+
+                <fieldset class="small" id="flag">
+                    <div class="category-title">
+                     Flag*
+                    </div>
+                    <div class="flag">
+                        <label>Include: </label>
+                        <div class="tooltip">
+                            <input type="text" name = "f" id ="flag-include" />
+                            <span class="tooltiptext" >Selected flags:</span>
+                        </div>
+                    </div>
+                    <div class="flag">
+                        <label>Exclude: </label>
+                        <div class="tooltip">
+                            <input type="text"  name = "F" id = "flag-exclude"/>
+                            <span class="tooltiptext" >Selected flags:</span>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="small" id="mapping-quality">
+                    <div class="category-title">
+                     Mapping Quality
+                    </div>
+                    <div class="flag">
+                        <label>Minimum: </label>
+                        <input type="text"  name = "q" id = "mapq"/>
+                    </div>
+                </fieldset>
+
+                <fieldset class="small" id = "template-length">
+                    <div class="category-title">
+                     Template Length
+                    </div>
+                    <div class="tlen">
+                        <label>Minimum: </label>
+                        <input type="text" name = "minTlen" id="minTlen" />
+                    </div>
+                    <div class="tlen">
+                        <label>Maximum: </label>
+                        <input type="text"  name="maxTlen" id="maxTlen"/>
+                    </div>
+                </fieldset>
+                <fieldset class="small" id = "cig">
+                    <div class="category-title">
+                     Cigar*
+                    </div>
+                    <div class="cigar">
+                        <label>Match: </label>
+                        <input type="text" name = "cigar" id="cigar" placeholder="e.g. [0-9]*M\Z"/>
+                    </div>
+                </fieldset>
+
+                <fieldset  id = "sequence">
+                    <div class="category-title">
+                     Sequence
+                    </div>
+                    <div class="last">
+                        <label>Match:</label>
+                        <input type="text"  name="seq" id="seq" placeholder="e.g. ACCTG ..."/>
+                    </div>
+                </fieldset>
+                <fieldset  id = "alignment">
+                    <div class="category-title">
+                     Alignment*
+                    </div>
+                    <div class="last">
+                        <label>Include:</label>
+                        <input type="text"  name="tags_incl" id="tags_incl" placeholder="e.g. X0:.:5"/>
+                        <label>Exclude:</label>
+                        <input type="text"  name="tags_excl" id="tags_excl" placeholder="e.g. XA:.:.* "/>
+
+                    </div>
+                </fieldset>
+            </div>
+       <div id="buttons">
+                    <div class="category-title">
+                     Output format
+                    </div>
+
+                    <div class="checkbox" name="output-format">
+                        <input type="checkbox" name="format" value="b" id="BAM"/>
+                        <label>BAM</label>
+                    </div>
+
+                    <div class="checkbox" name="output-format">
+                        <input type="checkbox" name="format" value="reformat" id="reformat" checked/>
+                        <label>Independent alignment format * </label>
+
+                    </div>
+
+           <div class="tooltip">
+
+            <button onclick="return submit_query()" class="ks-Button ks-Button--primary ks-Button--large"> Launch Job  </button>
+               <span class="tooltiptext">You will be directed to the Dashboard and get you job tracking ID. Wait for this, it may take a while. Remeber to store the tracking ID.</span>
+
+        </div>
+        </div>
+        </form>
+
+        <div id="bottom">
+
+            <div class="category-title">
+            * Other sequences
+            </div>
+
+            Alignments to other sequences than the human chromosomes:
+           <br>
+
+
+            <b> MT: </b>  GRCh37 mitochondrial sequence
+
+           <br>
+             <b>NC_007605: </b>human herpesvirus 4 type 1 sequence
+           <br>
+             <b>hs37d5:</b> decoy sequence
+
+            <br>
+             <b>GL-:</b> all unlocalized and unplaced sequences (e.g. GL000191.1)
+
+
+          <br>
+           <br>
+
+            <div class="category-title">
+            * Flag
+            </div>
+            Specify flag bits that must be / may not be set in an alignment.
+           <br>
+           <br>
+
+            <div class="category-title">
+            * Cigar
+            </div>
+            Require the cigar field to match a regular expression.
+            <br>
+            <br>
+            <b>Example:</b> Require a cigar on the form nnM (a full match)
+            <br>
+            Match: [0-9]*M\Z
+
+
+
+
+            <div class="category-title">
+            * Alignment
+            </div>
+            Specify tags and values that must be / may not be present in  optional alignment section of the BAM-record.
+            A field has the format TAG:TYPE:VALUE, and requirements ar specified using regular expressions on this form, in a comma-separated list.
+             <br>
+             <br>
+            <b>Example:</b> Require alignments to have an X0-tag with any value, an XC-tag with the exact value 67, and no XA-tags.
+
+             <br>
+            Include: X0:.:.*,XC:.:67
+             <br>
+            Exclude: XA:.:.*
+             <br>
+
+            <div class="category-title">
+            * Independent alignment format
+            </div>
+
+
+ A modification of the SAM format that excludes the header and
+includes the individual and region information in every alignment. The alignments
+thus become self-contained units, rendering the data suitable for imposing structure
+and performing interactive analysis using a query language, or for processing within
+a distributed computing framework such as Hadoop.
+          <br>
+           <br>
+
+
+             See the <b> <a href="https://samtools.github.io/hts-specs/SAMv1.pdf"> SAM format specification</a> </b> for an explanation of the SAM/BAM file format.
+            <br>
+                and
+            <br>
+
+            The <b> <a href="https://docs.python.org/2/library/re.html"> Python documentation</a> </b> for more on regular expressions.
+
+
+        </div>
+
+    </div>
+
+
+
+</div>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.1/Chart.min.js'></script>
+<script src='http://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/0.7.4/dist/progressbar.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+<script src="{{ static_url('js/underscore.js') }}"></script>
+<script src="{{ static_url('js/backbone.js') }}"></script>
+<script src="{{ static_url('js/bootstrap.js') }}"></script>
+<script src="{{ static_url('js/form-check.js') }}"></script>
+
+
+<script>
+
+
+  </script>
+
+
+</body>
+</html>
+
+

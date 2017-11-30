@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>BAMSI</title>
+    <link rel="stylesheet" href="{{ static_url('css/style.css') }}">
+      <link rel="stylesheet" href="{{ static_url('css/backgrid-filter.css') }}">
+      <link rel="stylesheet" href="{{ static_url('css/backgrid-select-all.css') }}">
+    <link rel="stylesheet" href="{{ static_url('css/extensions/paginator/backgrid-paginator.css') }}">
+  </head>
+  <body>
+  <div id="container">
+  <div id="sideMenu">
+
+    <ul class="menu" id="large-menu">
+         <li><a href="/">BAMSI</a></li>
+        <li><a href="/launch">Launcher</a></li>
+        <li><a href="/dash">Dashboard</a></li>
+       <li></li>
+    </ul>
+
+
+       <ul class="menu">
+      <li>Active Workers</li>
+        {% if nodes %}
+            {% for node in nodes %}
+                <li>{{ node }} </li>
+             {% end %}
+            {%  end %}
+
+    </ul>
+
+  </div>
+  <div id="content">
+    <div id="titleBar">
+      <h2>Welcome to BAMSI</h2>
+    </div>
+       <div id="info">
+
+         <h2>What is BAMSI</h2>
+          <div>
+
+           BAMSI - The BAM Search Infrastructure - is a tool for extracting data from the 1000 Genomes phase 3 set of mapped reads (BAM files).
+           It is a filtering tool - subsets of the ~60TB data can be specied and downloaded via the browser, with no need to download the entire data set.
+           <br>
+           <br>
+
+              The filtering is based on SAMtools and offers the same options, as well as additional ones.
+
+
+
+        </div>
+          <h2>How to use this site</h2>
+         <div>
+            <div class="info-column">
+                <br>
+
+             Filter jobs are started from the <b><a href="/launch">Launcher</a></b> page.
+                <br>
+                <br>
+                Files can be selected by population or individual ID, and the filter criteria can be specified.
+             </div>
+
+               <div class="info-column">
+
+             Once a filter job has been launched, it is given a tracking ID.
+
+                                   <br>
+                <br>
+
+                   <b>*It is very important that you store this ID.*</b>
+             It is the means by which you can track progress and download your results.
+</div>
+
+            <div class="info-column">
+                <br>
+                <br>
+
+            The <b><a href="/dash">Dashboard</a></b> page is for monitoring the progress of your job.
+                <br>
+                <br>
+
+                Finished tasks can be downloaded from here.
+</div>
+
+           <br>
+           <br>
+           <br>
+           <br>
+            This tool is open for anyone to use. It is however, a protoype, and we can offer no guarantees regarding performance.
+              We recommend using BAMSI for queries of high precision, which result in small sets of data to be downloaded (e.g. specifying a few regions, individuals,
+              or having very strict filter critera). For queries requiring parsing of the entire data set, or yielding large resulting files, performance is subject to resource availability.
+
+
+
+
+    </div>
+          <h2>Additional information</h2>
+
+           BAMSI is a cloud-based framework able to leverage compute and data resources from different providers and locations to optimize the efficiency of filtering.
+           <br>
+           <br>
+
+
+           This particular instance is hosted by <b> <a href="http://cloud.snic.se/"> SNIC Science Cloud</a> </b>,  accessing the 1000 Genomes data from a mirror on
+           <b> <a href="http://www.uppmax.uu.se/"> UPPMAX</a> </b>  (Uppsala Multidisciplinary Center for Advanced Computational Science).
+
+           <br>
+           <br>
+
+           BAMSI is also freely available for anyone wishing to set up their own instance of the framework. It is designed to have pluggable components, so
+           compute resources on one or several public or private clouds can be configured to access the data from different mirrors, and the results can be stored
+           in a location of your choice.
+
+           <br>
+           <br>
+
+           Besides improving the access to the 1000 Genomes data set, our intention is also to facilitate and encourage the use of distributed computing platforms
+           for analysis of genetic data. By configuring a distributed
+           storage backend such as HDFS or Swift for the results, post-processing can be performed using resources located close to the data. To this end,
+           we provide the option to download the results in a modified version of the SAM format in which the individual and region information is included
+           in every alignment. The alignments thus become self-contained units, rendering the data suitable for processing with frameworks such as Hadoop or Spark.
+
+           <br>
+           <br>
+
+           The source of BAMSI along with instructions on configuration and setup are available at <-- GITHUB address -->.
+           <br>
+           <br>
+
+           A Python API for launching, monitoring and downloading results is also available at <-- GITHUB address --> , and can be used instead of the graphical user interface
+           for interaction with BAMSI.
+
+          <h2>Contact</h2>
+        <div>
+
+        For questions regarding using or configuring BAMSI, contact: <b>kristiina.ausmees@it.uu.se</b>
+
+    </div>
+
+       </div>
+
+
+  </div>
+</div>
+</div>
+</div>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.1/Chart.min.js'></script>
+     <script src='http://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/0.7.4/dist/progressbar.js'></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    <script src="{{ static_url('js/underscore.js') }}"></script>
+    <script src="{{ static_url('js/backbone.js') }}"></script>
+    <script src="{{ static_url('js/bootstrap.js') }}"></script>
+    <script src="{{ static_url('js/backbone.paginator.js') }}"></script>
+    <script src="{{ static_url('js/backgrid.js') }}"></script>
+    <script src="{{ static_url('js/backgrid-filter.js') }}"></script>
+    <script src="{{ static_url('js/backgrid-select-all.js') }}"></script>
+    <script src="{{ static_url('js/extensions/paginator/backgrid-paginator.js') }}"></script>
+    <script src="{{ static_url('js/index.js') }}"></script>
+    <script src="{{ static_url('js/dashRows.js') }}"></script>
+    <script src="{{ static_url('js/download.js') }}"></script>
+    <script src="{{ static_url('js/dashboard.js') }}"></script>
+  </body>
+</html>
