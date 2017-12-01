@@ -1,4 +1,4 @@
-# BAMSI (BAM Search Infrastructure) #
+# BAMSI - The BAM Search Infrastructure #
 
 BAMSI is a cloud-based framework for filtering large genomic datasets consisting of BAM/SAM files.
 It supports using compute resources in multiple clouds, and the possibility to access the data from multiple mirrors.
@@ -6,10 +6,10 @@ It supports using compute resources in multiple clouds, and the possibility to a
 BAMSI streams the data, filters it according to a custom criteria, and saves the resulting subset of the data to storage.
 This removes the need to store the entire data set on local storage; a small subset of interest can be extracted and further analyzed locally.
 
-BAMSI is currently implemented for filtering the set of BAM files from the 1000 Genomes Project phase 3 dataset (http://www.1000genomes.org),
+BAMSI is currently implemented for filtering the set of BAM files from the 1000 Genomes Project phase 3 low coverage dataset (http://www.1000genomes.org),
 but could be modified to work with any set of BAM/SAM files.
 
-Follow the setup instructions here to set up BAMSI on your own set of compute resources.
+Follow the instructions here to launch BAMSI on your own set of compute resources.
 
 A freely available deployment of BAMSI is also available at (http://bamsi.research.it.uu.se/), hosted by SNIC Science Cloud.
 
@@ -60,7 +60,7 @@ sudo apt-get install samtools
 
 1. Clone the BAMSI git repository
      ```
-    $ git clone ...
+    $ git clone https://github.com/NGDSG/BAMSI.git
     ```
 2. Change the directory, and install python packages with pip
     ```
@@ -98,16 +98,21 @@ The first five settings are mandatory. They define the location and protocol of 
 DATA_PATH=http://<span></span>s3.amazonaws.com/1000genomes/phase3/data/{individual}/alignment/{filename}
 
 
-
-
-
 The other settings relate to the storage repository and can be changed accordingly when adding support for other storage.
 
 For the current HDFS implementation it is assumed that the namenode is listening on STORAGE_NODE:50070 and
 that a HttpFS server is listening on STORAGE_NODE:14000. These may have to be modified depending on your setup of HDFS.
-(E.g. if the WORKER_NODE is on the same network as the HDFS datanodes, then they can push results to the storage via the namenode.
+(E.g. if the WORKER_NODE is on the same network as the HDFS datanodes, then they can push results to the storage via the namenode on port 50070.
 Otherwise, they should interact with HDFS via the HttpFS server, and WEBHDFS_PORT should also be 14000.)
 
+ Adding a different type of storage repository requires writing a class that implements the interface defined by the class StorageRepositoryBase in tapp.py.
+ If no other functionality is required, creating such a class and changing the line
+
+
+    StorageRepository = HDFS()
+
+
+ in tapp.py to initialize your new class instead, and modifying the config file accordingly, should suffice.
 
 ### Starting the application ####
 
@@ -131,14 +136,13 @@ Otherwise, they should interact with HDFS via the HttpFS server, and WEBHDFS_POR
 
     http://localhost:8888/populate
 
-    Uses SQLite database to house the metadata, and job statistics.
+    Uses a SQLite database to house the metadata and job statistics.
 
+5. Define, launch and monitor the progress of filter jobs via the launch and dashboard pages of the web interface.
 
-5. Define and launch a filter job, either via the launch page of the web interface.
+6. Depending on your setup and preferences: download the results or access them directly from the storage repository for further analysis.
 
-6. Monitor the progress of the query via the dashboard page of the web interface.
-
-There is also a Python API that is possible to use for interaction with the BAMSI server instead of the web interface.
+There is also a Python API (https://github.com/NGDSG/BAMSI-API) that is possible to use for interaction with the BAMSI server instead of the web interface.
 
 
 
