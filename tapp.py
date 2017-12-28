@@ -22,6 +22,7 @@ import ConfigParser
 import random
 
 
+
 #Initialize the Config
 config = ConfigParser.SafeConfigParser({})
 config.read('config.cfg')
@@ -877,7 +878,7 @@ def readBAM(self, input_file_name, filter_conds):
 
 			msgCount += 1
 			# update msg
-			if msgCount == 1000000:
+			if msgCount == 2000000:
 				self.update_state(state='PROGRESS',
 					meta={'File': input_file_name,'Rows': rowCount, 'count': filterer.no_matching_alignments,
 								'status': 'chugging along!' })
@@ -1052,5 +1053,4 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
 

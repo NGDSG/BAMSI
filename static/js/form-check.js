@@ -297,8 +297,6 @@ function sel_all_regs() {
 };
 
 
-
-
 var outputs = document.getElementsByName("output-format");
 
 for (var i = 0; i < outputs.length; i++) {

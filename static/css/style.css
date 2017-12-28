@@ -192,7 +192,7 @@ min-height:700px;
 #salesData {
   margin-bottom: 60px;
 }
-#totalSales {
+#summary {
   height: 120px;
   position: relative;
   margin-top: 24px;
@@ -200,12 +200,12 @@ min-height:700px;
 }
 
 
-#totalSales .col {
+#summary .col {
   float: left;
   width: 33.33%;
   height: 100%;
 }
-#totalSales .col .progressTitle {
+#summary .col .progressTitle {
   float: left;
   margin-left: 20px;
   font-weight: 300;
@@ -225,7 +225,6 @@ min-height:700px;
   /*color: rgba(255, 255, 255, .8);*/
   top: -10px;
 }
-
 
 
 #tracking-box{
@@ -630,7 +629,7 @@ fieldset{
   height: 18px;
   margin-top: 6px;
   margin-left: 0px;
-  opacity 1 ;
+  opacity: 1 ;
   background: #ddd;
   border-radius: 3px;
 }
@@ -864,11 +863,8 @@ font-weight:250;
 
 }
 .small input{
-  width: 62%;
   position: relative;
   right:0px;
-  float:right:
-  top: 6px;
   margin-bottom: 4px;
   display:block;
   width: 60%;
@@ -899,7 +895,7 @@ font-weight:250;
   width: 100%;
   position: relative;
   right:0px;
-  float:right:
+  float:right;
   top: 6px;
   margin-bottom: 4px;
 }
@@ -942,7 +938,7 @@ font-weight:250;
 }
 
 input{
-  background: #FFFFF;
+  background: #FFFFFF;
   opacity:0.9;
   border-width: 0.5px;
   border-radius: 2px;
@@ -950,12 +946,9 @@ input{
   height:25px;
 
 }
-/*
-::-moz-placeholder {  /* Firefox 19+ */
-      font-size: 12px!important;
+
+input[disabled] {
+    opacity:0.7;
 }
 
-input {
-font-size : 16px;
-}
-*/
+

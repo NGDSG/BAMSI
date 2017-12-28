@@ -35,25 +35,28 @@
     <div id="titleBar">
       <h2>Dashboard</h2>
     </div>
-      <div id="info">
-        <div id="select-tracking">
+
+
+    <div id="select-tracking">
         <label>Tracking ID:</label>
         <input type="text" id="tracking-box">
         <button onclick="select_tracking()" class="ks-Button ks-Button--primary ks-Button--large">OK </button>
 
-        </div>
+    </div>
 
 
 
     <div class="mainChart" id="main-chart">
+      <h2>Job Summary</h2>
 
-      <div id="jobSummary">
+      <div class="clearFix"></div>
+      <div id="summary" >
         <div class="col">
           <div id="completedJobs" class="progressBar"></div>
           <h3></h3>
           <span class="progressTitle">Completed</span>
         </div>
-        <div class="col" style="display: none;">
+        <div class="col" >
           <div id="erroredJobs" class="progressBar"></div>
           <h3></h3>
           <span class="progressTitle">Errored</span>
@@ -65,20 +68,19 @@
         </div>
       </div>
 
-
-
-
     </div>
+
     <div id="grid">
     </div>
-      <div id="buttons">
+    <div id="buttons">
             <button onclick="download_selected()" class="ks-Button ks-Button--primary ks-Button--large">Download Selected  </button>
             <p>
-        </div>
+    </div>
 
     <div id="paginator"></div>
+
+<!-- End Content -->
 </div>
-  </div>
 </div>
 </div>
 </div>
