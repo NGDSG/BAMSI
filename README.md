@@ -68,22 +68,40 @@ sudo apt-get install samtools
     $ sudo apt-get install python-pip
     $ sudo pip install -r requirements.txt
     ```
-3. Start the Celery broker - RabbitMQ (Only on MASTER_NODE)
+3. Install and start the Celery broker - RabbitMQ (Only on MASTER_NODE)
 
-    https://www.rabbitmq.com/install-debian.html
-    
+   (See https://www.rabbitmq.com/download.html for instructions)
 
-4. On the MASTER_NODE and all the WORKER_NODES: modify the configuration file dfaas.cfg according to your setup:
+    Example (on ubuntu using apt)
+     ```
+    $ sudo apt-get install rabbitmq-server
+     ```
+
+
+    Create virtual host and user: (replace *celery-host*, *celery*, and *stalk* with your own virtual hostname, username and password).
+
+
+     ```
+    $ sudo rabbitmqctl add_vhost celery-host
+    $ sudo rabbitmqctl add_user celery stalk
+    $ sudo rabbitmqctl set_permissions -p celery-host celery ".*" ".*" ".*"
+    ```
+
+
+
+4. On the MASTER_NODE and all the WORKER_NODES: modify the configuration file config.cfg according to your setup:
 
  Example configuration file:
 
 ```
-[dfaas]
+[bamsi]
 CELERY_BROKER_URL = amqp://celery:stalk@MASTER_NODE/celery-host
 CELERY_RESULT_BACKEND = amqp
 DATA_PATH=ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/{individual}/alignment/{filename}
 MASTER_IP=MASTER_NODE
 MASTER_PORT=8888
+
+[storage]
 WEBHDFS_IP=STORAGE_NODE
 WEBHDFS_PORT=50070
 WEBHDFS_PUBLIC_IP=STORAGE_NODE
@@ -92,27 +110,30 @@ WEBHDFS_USER=ubuntu
 RESULTS_PATH=/filtered/
 ```
 
-The first five settings are mandatory. They define the location and protocol of the celery host, and define the location from which
+The settings in the section 'bamsi' are mandatory. They define the location and protocol of the celery host, and define the location from which
  each WORKER_NODE streams the data. To use the public Amazon S3 mirror, use:
 
-DATA_PATH=http://<span></span>s3.amazonaws.com/1000genomes/phase3/data/{individual}/alignment/{filename}
+```
+DATA_PATH=http://s3.amazonaws.com/1000genomes/phase3/data/{individual}/alignment/{filename}
+```
 
 
-The other settings relate to the storage repository and can be changed accordingly when adding support for other storage.
+
+The settings in the section 'storage' relate to the storage repository and can be changed accordingly when adding support for other systems.
+Adding a different type of storage repository requires writing a class that implements the interface defined by the class StorageRepositoryBase in tapp.py.
+If no other functionality is required, creating such a class and changing the line
+
+    StorageRepository = HDFS()
+
+in tapp.py to initialize your new class instead, and modifying the config file accordingly, should suffice.
+
+
 
 For the current HDFS implementation it is assumed that the namenode is listening on STORAGE_NODE:50070 and
 that a HttpFS server is listening on STORAGE_NODE:14000. These may have to be modified depending on your setup of HDFS.
 (E.g. if the WORKER_NODE is on the same network as the HDFS datanodes, then they can push results to the storage via the namenode on port 50070.
 Otherwise, they should interact with HDFS via the HttpFS server, and WEBHDFS_PORT should also be 14000.)
 
- Adding a different type of storage repository requires writing a class that implements the interface defined by the class StorageRepositoryBase in tapp.py.
- If no other functionality is required, creating such a class and changing the line
-
-
-    StorageRepository = HDFS()
-
-
- in tapp.py to initialize your new class instead, and modifying the config file accordingly, should suffice.
 
 ### Starting the application ####
 

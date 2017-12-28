@@ -24,38 +24,34 @@ import random
 
 #Initialize the Config
 config = ConfigParser.SafeConfigParser({})
-config.read('dfaas.cfg')
+config.read('config.cfg')
 
 '''
 The config file: must be called dfaas.cfg and be in the same directory
 Below is a sample config to get an idea
-[dfaas]
-CELERY_BROKER_URL = amqp://celery:stalk@IP1/celery-host
+[bamsi]
+CELERY_BROKER_URL = amqp://celery:stalk@MASTER_NODE/celery-host
 CELERY_RESULT_BACKEND = amqp
-WEBHDFS_IP=IP2
+DATA_PATH=ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/{individual}/alignment/{filename}
+MASTER_IP=MASTER_NODE
+MASTER_PORT=8888
+
+[storage]
+WEBHDFS_IP=STORAGE_NODE
 WEBHDFS_PORT=50070
-WEBHDFS_PUBLIC_IP=IP3
+WEBHDFS_PUBLIC_IP=STORAGE_NODE
 WEBHDFS_PUBLIC_PORT=14000
 WEBHDFS_USER=ubuntu
-MASTER_IP=IP1
-MASTER_PORT=8888
-DATA_PATH=ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/{individual}/alignment/{filename}
-RESULTS_PATH = /filtered/
+RESULTS_PATH=/filtered/
 
 ----
 '''
 class Config:
-	CELERY_BROKER_URL = config.get('dfaas','CELERY_BROKER_URL')
-	CELERY_RESULT_BACKEND = config.get('dfaas','CELERY_RESULT_BACKEND')
-	WEBHDFS_IP=config.get('dfaas','WEBHDFS_IP')
-	WEBHDFS_PUBLIC_IP=config.get('dfaas','WEBHDFS_PUBLIC_IP')
-	WEBHDFS_PORT=config.get('dfaas','WEBHDFS_PORT')
-	WEBHDFS_PUBLIC_PORT=config.get('dfaas','WEBHDFS_PUBLIC_PORT')
-	WEBHDFS_USER=config.get('dfaas','WEBHDFS_USER')
-	MASTER_IP= config.get('dfaas','MASTER_IP')
-	MASTER_PORT= config.get('dfaas','MASTER_PORT')
-	DATA_PATH = config.get('dfaas', 'DATA_PATH')
-	RESULTS_PATH = config.get('dfaas', 'RESULTS_PATH')
+	CELERY_BROKER_URL = config.get('bamsi','CELERY_BROKER_URL')
+	CELERY_RESULT_BACKEND = config.get('bamsi','CELERY_RESULT_BACKEND')
+	MASTER_IP= config.get('bamsi','MASTER_IP')
+	MASTER_PORT= config.get('bamsi','MASTER_PORT')
+	DATA_PATH = config.get('bamsi', 'DATA_PATH')
 	CELERY_QUEUES = (Queue('default', Exchange('default'), routing_key='default'), Broadcast('q1'), )
 	CELERY_ROUTES = {'tapp.readBAM': 'default','tapp.readMock': {'queue': 'q1'}}
 	NO_OF_ROWS = 3000
@@ -66,8 +62,8 @@ celery = Celery('tapp',backend=Config.CELERY_RESULT_BACKEND, broker=Config.CELER
 celery.config_from_object(Config)
 
 #Logging config
-logger = logging.getLogger('dfaas')
-fhdlr = logging.FileHandler('dfaas.log')
+logger = logging.getLogger('bamsi')
+fhdlr = logging.FileHandler('bamsi.log')
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 fhdlr.setFormatter(formatter)
 logger.addHandler(fhdlr)
@@ -92,6 +88,11 @@ class StorageRepositoryBase(object):
 
     """
 	def __init__(self):
+		"""Initialize the storage repository class.
+
+		Returns:
+			 nothing
+		"""
 		pass
 
 
@@ -132,12 +133,22 @@ class StorageRepositoryBase(object):
 
 class HDFS(StorageRepositoryBase):
 	def __init__(self):
+		"""Initialize the HDFS storage repository class.
+		   Reads settings from section 'storage' in a ConfigParser object named config.
+		"""
+
+		self.WEBHDFS_IP=config.get('storage','WEBHDFS_IP')
+		self.WEBHDFS_PUBLIC_IP=config.get('storage','WEBHDFS_PUBLIC_IP')
+		self.WEBHDFS_PORT=config.get('storage','WEBHDFS_PORT')
+		self.WEBHDFS_PUBLIC_PORT=config.get('storage','WEBHDFS_PUBLIC_PORT')
+		self.WEBHDFS_USER=config.get('storage','WEBHDFS_USER')
+		self.RESULTS_PATH = config.get('storage', 'RESULTS_PATH')
 		StorageRepositoryBase.__init__(self)
 
 	def push_to_storage(self, file_path_local, group_id, file_name):
-		file_path_hdfs = '{dir}{subdir}/{file}'.format(dir=Config.RESULTS_PATH, subdir=group_id, file=file_name)
-		command1 = ["curl","-sS","-f","-i", "-X", "PUT", "http://"+Config.WEBHDFS_IP+":"+Config.WEBHDFS_PORT+"/webhdfs/v1"+
-						   file_path_hdfs + "?user.name="+Config.WEBHDFS_USER+"&op=CREATE"]
+		file_path_hdfs = '{dir}{subdir}/{file}'.format(dir=self.RESULTS_PATH, subdir=group_id, file=file_name)
+		command1 = ["curl","-sS","-f","-i", "-X", "PUT", "http://"+self.WEBHDFS_IP+":"+self.WEBHDFS_PORT+"/webhdfs/v1"+
+						   file_path_hdfs + "?user.name="+self.WEBHDFS_USER+"&op=CREATE"]
 
 
 		put1 = subprocess.Popen(command1, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -157,8 +168,8 @@ class HDFS(StorageRepositoryBase):
 
 
 	def get_download_urls(self, trackingID, fileIDs):
-		payload = {'user.name': Config.WEBHDFS_USER, 'op': 'LISTSTATUS'}
-		r = requests.get("http://"+Config.WEBHDFS_IP+":"+Config.WEBHDFS_PORT+"/webhdfs/v1/filtered/"+trackingID, params=payload)
+		payload = {'user.name': self.WEBHDFS_USER, 'op': 'LISTSTATUS'}
+		r = requests.get("http://"+self.WEBHDFS_IP+":"+self.WEBHDFS_PORT+"/webhdfs/v1/filtered/"+trackingID, params=payload)
 		totalsize = 0
 		URLlist = []
 
@@ -171,7 +182,7 @@ class HDFS(StorageRepositoryBase):
 				fileID = filename.split(".")[0]
 				if fileID in fileIDs:
 					totalsize += int(filesize)
-					URLlist.append("http://"+Config.WEBHDFS_PUBLIC_IP+":"+Config.WEBHDFS_PUBLIC_PORT+"/webhdfs/v1/filtered/"+trackingID+"/"+filename+"?user.name="+Config.WEBHDFS_USER+"&op=OPEN")
+					URLlist.append("http://"+self.WEBHDFS_PUBLIC_IP+":"+self.WEBHDFS_PUBLIC_PORT+"/webhdfs/v1/filtered/"+trackingID+"/"+filename+"?user.name="+self.WEBHDFS_USER+"&op=OPEN")
 
 		else:
 			logger.info("Fetching download URLs failed: " + r.text)
