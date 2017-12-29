@@ -997,9 +997,9 @@ class BAMJobHandler(tornado.web.RequestHandler):
 				logger.info("Number of files chosen = " + str(len(rows)) + ":")
 
 			for row in rows:
-				logger.info("-- %s " % (row[2]))
-				bam_files.append(row[4])
-				selected_individuals.append(row[5])
+				logger.info("------- %s " % (str(row[2])))
+				bam_files.append(row[2])
+				selected_individuals.append(row[3])
 
 
 		#remove the filter arguments that specify which files to choose
