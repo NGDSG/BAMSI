@@ -983,8 +983,14 @@ class BAMJobHandler(tornado.web.RequestHandler):
 				cur.execute("SELECT * FROM files WHERE subpop in (" +",".join(["?"]*len(subpops))+")" + " limit "+limit, subpops)
 
 			if "inds" in query_args:
-				inds = query_args["inds"][0].replace(" ", "").split(',')
+				if "api_key" in query_args:
+					inds = query_args["inds"][0].replace(" ", "").split(',')
+				else:
+					inds = query_args["inds"]
+
 				cur.execute("SELECT * FROM files WHERE individual in (" +",".join(["?"]*len(inds))+")" + " limit "+limit, inds)
+
+
 
 			conn.commit()
 
