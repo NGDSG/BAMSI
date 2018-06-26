@@ -174,3 +174,6 @@ There is also a Python API (https://github.com/NGDSG/BAMSI-API) that is possible
 
 
 contact: kristiina.ausmees@it.uu.se
+
+### DOI(Citation)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1264662.svg)](https://doi.org/10.5281/zenodo.1264662)
